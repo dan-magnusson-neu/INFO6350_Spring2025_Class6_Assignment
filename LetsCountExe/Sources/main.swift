@@ -1,4 +1,5 @@
 import Foundation
+import LetsCountLib
 
 var apiSession: CounterAPISession?
 print("""

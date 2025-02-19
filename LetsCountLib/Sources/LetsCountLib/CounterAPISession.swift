@@ -1,14 +1,14 @@
 import Foundation
 
-class CounterAPISession {
+public class CounterAPISession {
     static let endpointBase: String = "https://letscountapi.com/"
     private let path: Path
     
-    init(namespace: String, key: String) {
+    public init(namespace: String, key: String) {
         self.path = Path(namespace: namespace, key: key)
     }
     
-    func createCounter(startingWith count: Int?) async throws -> CounterResponse {
+    public func createCounter(startingWith count: Int?) async throws -> CounterResponse {
         var counter: Data?
         if let count = count {
             counter = try JSONEncoder().encode(CounterRequest(currentValue: count))
@@ -21,25 +21,25 @@ class CounterAPISession {
                                      bodyData: counter)
     }
     
-    func getCounterValue() async throws -> CounterResponse {
+    public func getCounterValue() async throws -> CounterResponse {
         return try await sendRequest(fromRoute: .base,
                                      inSession: path,
                                      usingMethod: .get)
     }
     
-    func incrementCounter() async throws -> CounterResponse {
+    public func incrementCounter() async throws -> CounterResponse {
         return try await sendRequest(fromRoute: .increment,
                                      inSession: path,
                                      usingMethod: .post)
     }
     
-    func decrementCounter() async throws -> CounterResponse {
+    public func decrementCounter() async throws -> CounterResponse {
         return try await sendRequest(fromRoute: .decrement,
                                      inSession: path,
                                      usingMethod: .post)
     }
     
-    func updateCounter(to count: Int) async throws -> CounterResponse {
+    public func updateCounter(to count: Int) async throws -> CounterResponse {
         let counter = try JSONEncoder().encode(CounterRequest(currentValue: count))
         return try await sendRequest(fromRoute: .update,
                                      inSession: path,
@@ -77,14 +77,14 @@ class CounterAPISession {
         case networkError(code: Int)
     }
     
-    enum Route: String {
+    public enum Route: String {
         case base
         case increment
         case decrement
         case update
     }
     
-    enum HTTPMethod: String {
+    public enum HTTPMethod: String {
         case post = "POST"
         case get = "GET"
     }
